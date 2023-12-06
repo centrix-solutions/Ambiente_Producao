@@ -71,7 +71,6 @@ async function listarProcessos(pesquisa) {
                         });
                         var posicao = arrayIdComputador.indexOf(i);
                         spanComputador.innerHTML = arrayDadoCabecalho[posicao][0];
-                        spanPessoa.innerHTML = arrayDadoCabecalho[posicao][1];
                         spanSeta.innerHTML = "&#9660;";
                         
                         var divConteudo = document.createElement('div');
