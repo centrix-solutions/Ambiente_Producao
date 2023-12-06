@@ -14,7 +14,18 @@ var sqlServerConfig = {
         stream: false
     }
 }
-
+var sqlServerConfig = {
+    port: parseInt("1433", 10),
+    server: "44.197.21.59",
+    user: "sa",
+    password: "centrix",
+    database: "Centrix",
+    options: {
+        encrypt: false,
+        trustServerCertificate: true,
+        stream: false
+    }
+}
 // CONEXÃO DO MYSQL WORKBENCH
 // var mySqlConfig = {
 //     host: "localhost",
