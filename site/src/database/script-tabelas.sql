@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS Login (
     idFuncionario INT,
     idMaquina INT,
     idEmpresa INT,
-    Nome VARCHAR(45),
+    Email VARCHAR(45),
     Atividade VARCHAR(255),
     Id_do_dispositivo CHAR(16),
     dataHoraEntrada DATETIME,
@@ -154,14 +154,11 @@ insert into Maquinas values
     (null, "Linux", "def", 0, 0, 1, null),
     (null, "MacOs", "xyz", 0, 0, 1, null),
 	(null, "Oracle", "sim", 0, 0, 1, null);
-    
-update maquinas set fkAndarDeTrabalho = 2 where idMaquina = 2;
 */
-    INSERT INTO Andar_de_trabalho VALUES 
- (1, 1, "a", 1);
-INSERT INTO Funcionario (nome, email, senha, fkEmpFunc, fkNivelAcesso, fkAndar)
+
+INSERT INTO Funcionario (nome, email, senha, fkEmpFunc, fkNivelAcesso)
 VALUES
-    ('Funcionário 1', 'funcionario1@email.com', 'senha1', 1, 4, 1);
+    ('Funcionário 1', 'a', 'b', 1, 4);
   
 INSERT INTO ComponentesQuePrestamosServico (nome) VALUES
     ('CPU'),
@@ -183,5 +180,3 @@ select idMonitoramento, Data_captura, Hora_captura, Dado_Capturado, fkCompMoniEx
 select * from login;
 select * from maquinas;
 select * from notificacao;
-
-Update funcionario set fkNivelAcesso = 4 where idFuncionario = 1;

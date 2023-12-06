@@ -5,19 +5,19 @@ var vetorValor = [];
 
 function deletarComputador(idMaquina) {
     console.log(idMaquina)
-     var removerMaquina = idMaquina
+    var removerMaquina = idMaquina
     console.log(removerMaquina)
-        fetch("/medidas/deletarComputador", {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                removerMaquinaSever: removerMaquina,                                  
-            })
-        });
-        window.location = "dashboard_main.html"
-}   
+    fetch("/medidas/deletarComputador", {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            removerMaquinaSever: removerMaquina,
+        })
+    });
+    window.location = "dashboard_main.html"
+}
 
 function buscarComponentes(idMaquina, idEmpresa) {
     fetch("/medidas/buscarComponentes", {
@@ -119,6 +119,7 @@ function obterDadosGrafico(idMaquina, chartId) {
     function atualizarGrafico() {
         fetch(`/medidas/tempo-real/${idMaquina}`, { cache: 'no-store' })
             .then((response) => {
+
                 if (response.ok) {
                     return response.json();
                 } else {
@@ -126,7 +127,7 @@ function obterDadosGrafico(idMaquina, chartId) {
                 }
             })
             .then((novoRegistro) => {
-                const momento = novoRegistro[0].momento_grafico;
+                const momento = new Date(novoRegistro[0].momento_grafico).toISOString().slice(11, 19);
                 if (momento !== labels[labels.length - 1]) {
                     labels.shift();
                     labels.push(momento);
@@ -144,6 +145,8 @@ function obterDadosGrafico(idMaquina, chartId) {
 
     fetch(`/medidas/ultimas/${idMaquina}`, { cache: 'no-store' })
         .then((response) => {
+            console.log("aaaa")
+            console.log(response)
             if (response.ok) {
                 return response.json();
             } else {
@@ -151,9 +154,12 @@ function obterDadosGrafico(idMaquina, chartId) {
             }
         })
         .then((resposta) => {
+
             resposta.reverse();
             for (const registro of resposta) {
-                labels.push(registro.momento_grafico);
+                const momentoFormatado = new Date(registro.momento_grafico).toISOString().slice(11, 19);
+
+                labels.push(momentoFormatado);
                 data.push(registro.cpu);
             }
             myChart.update();
@@ -240,12 +246,12 @@ function obterDadosGraficoRAM(idMaquina, chartId) {
 
                 const usoRAMPercent = (usoRAMGB / totalRAMGB) * 100;
 
-                const momento = novoRegistro[0].momento_grafico;
+                const momento = new Date(novoRegistro[0].momento_grafico).toISOString().slice(11, 19);
                 if (momento !== labels[labels.length - 1]) {
                     labels.shift();
                     labels.push(momento);
                     data.shift();
-                    data.push(usoRAMPercent); 
+                    data.push(usoRAMPercent);
                     myChart.update();
                 }
                 setTimeout(atualizarGraficoRAM, 4000);
@@ -267,8 +273,18 @@ function obterDadosGraficoRAM(idMaquina, chartId) {
         .then((resposta) => {
             resposta.reverse();
             for (const registro of resposta) {
-                labels.push(registro.momento_grafico);
-                data.push(registro.ram);
+                console.log(resposta)
+                console.log(registro)
+
+                const horaRegistro = new Date(registro.momento_grafico).toISOString().slice(11, 19);
+
+                const registroFormatado = {
+                    momento_grafico: horaRegistro,
+                    ram: registro.ram,
+                };
+
+                labels.push(registroFormatado.momento_grafico);
+                data.push(registroFormatado.ram);
             }
             myChart.update();
             setTimeout(atualizarGraficoRAM, 4000);
@@ -440,7 +456,9 @@ function buscarDadosMonitoramento(idMaquina, idEmpresa) {
             if (response.ok) {
                 response.json().then(function (resposta) {
 
+
                     upload.innerHTML = ` ${resposta[0].dado}mb/s`
+
 
                 });
             } else {
@@ -531,6 +549,37 @@ function buscarDadosMonitoramento(idMaquina, idEmpresa) {
                 console.error(`Erro na obtenção dos dados: ${error.message}`);
             });
     }
+    
+    function atualizarCorBarra() {
+
+        var barraCpu = document.getElementById('barra_cpu')
+        var barraRam = document.getElementById('barra_ram')
+        var barraDisco = document.getElementById('barra_disco')
+
+        for (let i = 0; i < 3; i++) {
+            var barra = ""
+            switch (i) {
+                case 0:
+                    barra = barraCpu;
+                    break;
+                case 1:
+                    barra = barraRam;
+                    break;
+                case 2:
+                    barra = barraDisco;
+                    break;
+            }
+            var valor = barra.value
+            console.log(barra.id)
+            if (valor <= 25) {
+                barra.setAttribute('name', 'verde')
+            } else if (valor >= 75) {
+                barra.setAttribute('name', 'vermelho')
+            } else {
+                barra.setAttribute('name', 'laranja')
+            }
+        }        
+    }
 
     buscarCpu(idMaquina, idEmpresa)
     buscarRam(idMaquina, idEmpresa)
@@ -541,9 +590,10 @@ function buscarDadosMonitoramento(idMaquina, idEmpresa) {
     buscarLogin(idMaquina, idEmpresa)
     buscarJanelas(idMaquina, idEmpresa)
     buscarProcessos(idMaquina, idEmpresa)
+    atualizarCorBarra()
 }
 
 
 setInterval(function () {
-  buscarDadosMonitoramento(idMaquina, idEmpresa);
+    buscarDadosMonitoramento(idMaquina, idEmpresa);
 }, 2000); 

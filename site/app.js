@@ -1,5 +1,5 @@
-process.env.AMBIENTE_PROCESSO = "desenvolvimento";
-// process.env.AMBIENTE_PROCESSO = "producao";
+//process.env.AMBIENTE_PROCESSO = "desenvolvimento";
+process.env.AMBIENTE_PROCESSO = "producao";
 
 var express = require("express");
 var cors = require("cors");
@@ -13,8 +13,13 @@ var usuariosRouter = require("./src/routes/usuarios");
 var funcionariosRouter = require("./src/routes/funcionarios");
 var empresasRouter = require("./src/routes/empresas");
 var medidasRouter = require("./src/routes/medidas");
+var relatoriosRouter = require("./src/routes/relatorios");
 var dashboardRouter = require("./src/routes/dashboard");
 var notificacaoRouter = require("./src/routes/notificacao");
+var redeRouter = require("./src/routes/rede");
+var processosRouter = require("./src/routes/processos");
+var dashPaola = require("./src/routes/dashPaola");
+var dashRuanRouter = require("./src/routes/dashRuan");
 
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true })); // tava false antes da foto
@@ -27,8 +32,13 @@ app.use("/usuarios", usuariosRouter);
 app.use("/empresas", empresasRouter);
 app.use("/funcionarios", funcionariosRouter);
 app.use("/medidas", medidasRouter);
+app.use("/relatorios", relatoriosRouter);
 app.use("/dashboard", dashboardRouter);
 app.use("/notificacao", notificacaoRouter);
+app.use("/rede", redeRouter);
+app.use("/processos", processosRouter);
+app.use("/dashPaola", dashPaola);
+app.use("/dashRuan", dashRuanRouter);
 
 app.listen(PORTA, function () {
     console.log(`Servidor do seu site já está rodando! Acesse o caminho a seguir para visualizar: http://localhost:${PORTA} \n
