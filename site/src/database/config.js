@@ -14,31 +14,20 @@ var sqlServerConfig = {
         stream: false
     }
 }
-var sqlServerConfig = {
-    port: parseInt("1433", 10),
-    server: "44.197.21.59",
-    user: "sa",
-    password: "centrix",
-    database: "Centrix",
-    options: {
-        encrypt: false,
-        trustServerCertificate: true,
-        stream: false
-    }
-}
+
 // CONEXÃO DO MYSQL WORKBENCH
-// var mySqlConfig = {
-//     host: "localhost",
-//     database: "centrix",
-//     user: "aluno",
-//      password: "sptech",
-//     // user: "root",
-//     // password: "38762",
-//     //user: "root",
-//     //password: "TomboySupremacy2!",
-//     // user: "root",
-//     // password: "#Gf53359131851",
-// };
+var mySqlConfig = {
+    host: "localhost",
+    database: "centrix",
+    user: "aluno",
+     password: "sptech",
+    // user: "root",
+    // password: "38762",
+    //user: "root",
+    //password: "TomboySupremacy2!",
+    // user: "root",
+    // password: "#Gf53359131851",
+};
 
 
 function executar(instrucao) {

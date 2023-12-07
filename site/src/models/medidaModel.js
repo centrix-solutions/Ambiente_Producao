@@ -65,9 +65,7 @@ function deletarComputador(IDMaquina) {
 
     var instrucao3 = `DELETE FROM Componentes_Monitorados WHERE fkMaquina = ${IDMaquina}`
 
-    var instrucao4 = `DELETE FROM Processo WHERE fkMaqProc = ${IDMaquina}`
-    
-    var instrucao5 = `DELETE FROM Maquinas WHERE idMaquina = ${IDMaquina};`
+    var instrucao4 = `DELETE FROM Maquinas WHERE idMaquina = ${IDMaquina};`
 
     console.log("Executando a instrução SQL: \n" + instrucao4)
     
@@ -75,7 +73,6 @@ function deletarComputador(IDMaquina) {
     .then(() => database.executar(instrucao2))
     .then(() => database.executar(instrucao3))
     .then(() => database.executar(instrucao4))
-    .then(() => database.executar(instrucao5))
     .then(() => console.log("Instruções SQL executadas com sucesso."))
     .catch((erro) => console.error("Erro ao executar instruções SQL:", erro));
 }

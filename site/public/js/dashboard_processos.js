@@ -71,6 +71,7 @@ async function listarProcessos(pesquisa) {
                         });
                         var posicao = arrayIdComputador.indexOf(i);
                         spanComputador.innerHTML = arrayDadoCabecalho[posicao][0];
+                        spanPessoa.innerHTML = '';
                         spanSeta.innerHTML = "&#9660;";
                         
                         var divConteudo = document.createElement('div');
@@ -278,10 +279,10 @@ window.onclick = function(event) {
 }
 function SelecionarTodos() {
     var chks = document.getElementsByName('chkRelatorio');
-    for (let i = 1; i <= chks.length; i++) {
-        var checkbox = document.getElementById(`chkRelatorio-${i}`);
+    chks.forEach(i => {
+        var checkbox = document.getElementById(i.id);
         checkbox.checked = true;
-    }
+    });
 }
 setTimeout(() => {
     listarProcessos();
